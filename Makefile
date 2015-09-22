@@ -41,9 +41,13 @@ CLANG_LIBS := \
 CXX := g++
 CXXFLAGS= -fno-rtti -O0 -g 
 
-all: loop_matcher
+all: loop_matcher visitor
 
 loop_matcher: src/loop_matcher.cpp
+	$(CXX) $(CXXFLAGS) $(LLVM_CXXFLAGS) $(CLANG_INCLUDES) $^ $(CLANG_LIBS) $(LLVM_LDFLAGS) -o $@
+
+
+visitor: src/visitor.cpp
 	$(CXX) $(CXXFLAGS) $(LLVM_CXXFLAGS) $(CLANG_INCLUDES) $^ $(CLANG_LIBS) $(LLVM_LDFLAGS) -o $@
 
 clean:
