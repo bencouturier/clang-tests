@@ -39,9 +39,13 @@ CLANG_LIBS := \
 	-Wl,--end-group
 
 CXX := g++
-CXXFLAGS= -fno-rtti -O0 -g 
+CXXFLAGS:= -fno-rtti -O0 -g 
+EXEC:= loop_matcher visitor call_matcher
 
-all: loop_matcher visitor
+all: $(EXEC) 
+
+call_matcher: src/call_matcher.cpp
+	$(CXX) $(CXXFLAGS) $(LLVM_CXXFLAGS) $(CLANG_INCLUDES) $^ $(CLANG_LIBS) $(LLVM_LDFLAGS) -o $@
 
 loop_matcher: src/loop_matcher.cpp
 	$(CXX) $(CXXFLAGS) $(LLVM_CXXFLAGS) $(CLANG_INCLUDES) $^ $(CLANG_LIBS) $(LLVM_LDFLAGS) -o $@
