@@ -13,7 +13,7 @@ $(info Using clang from: $(CLANGBIN))
 PLUGIN_CXXFLAGS := -fpic
 LLVM_CXXFLAGS := `$(LLVM_BIN_PATH)/llvm-config --cxxflags`
 LLVM_LDFLAGS := `$(LLVM_BIN_PATH)/llvm-config --ldflags --libs --system-libs`
-CLANG_INCLUDES := -I$(LLVM_SRC_PATH)/tools/clang/include 	-I$(LLVM_BUILD_PATH)/tools/clang/include
+CLANG_INCLUDES := -I$(LLVM_SRC_PATH)/tools/clang/include -I$(LLVM_BUILD_PATH)/tools/clang/include
 CLANG_LIBS := \
 	-Wl,--start-group \
 	-lclangAST \
@@ -38,15 +38,12 @@ CLANG_LIBS := \
 	-lclangTooling \
 	-Wl,--end-group
 
-
 CXX := g++
-CXXFLAGS= -fno-rtti -O0 -g $(LLVM_CXXFLAGS) $(CLANG_INCLUDES)
-LBDLIBS= $(CLANG_LIBS) $(LLVM_LDFLAGS)
-EXEC = matcher
-SOURCES = $(wildcard src/*.cpp)
+CXXFLAGS= -fno-rtti -O0 -g 
 
+all: loop_matcher
 
-$(EXEC): $(SOUR
+loop_matcher: src/loop_matcher.cpp
 	$(CXX) $(CXXFLAGS) $(LLVM_CXXFLAGS) $(CLANG_INCLUDES) $^ $(CLANG_LIBS) $(LLVM_LDFLAGS) -o $@
 
 clean:
