@@ -20,12 +20,12 @@ static llvm::cl::OptionCategory ToolingSampleCategory("Matcher test");
 
 // Loop matcher for loop example
 StatementMatcher CallMatcher =
-  memberCallExpr(hasName("toto")).bind("call");
+  memberCallExpr(callee(memberExpr(member(hasName("toto"))))).bind("call");
 
-class Callrinter : public MatchFinder::MatchCallback {
+class CallPrinter : public MatchFinder::MatchCallback {
 public :
   virtual void run(const MatchFinder::MatchResult &Result) {
-    if (const CXXMemberCallExpr *s = Result.Nodes.getNodeAs<clang::CXXMemberCallExp>("call"))
+    if (const CXXMemberCallExpr *s = Result.Nodes.getNodeAs<CXXMemberCallExpr>("call"))
       s->dump();
   }
 };
